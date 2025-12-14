@@ -7,7 +7,7 @@ import { User } from 'lucide-react';
 interface IncidentMapProps {
   center: { lat: number; lng: number };
   userLocation: { lat: number; lng: number };
-  onMapClick: (e: {lat:number,lng:number}) => void;
+  onMapClick: (e: google.maps.MapMouseEvent) => void;
 }
 
 
@@ -17,7 +17,7 @@ export function IncidentMap({ center, userLocation, onMapClick }: IncidentMapPro
       defaultCenter={center}
       defaultZoom={15}
       disableDefaultUI={false}
-      onClick={(e) => e.detail.latLng && onMapClick(e.detail.latLng)}
+      onClick={onMapClick}
       className="w-full h-full"
     >
       <AdvancedMarker position={userLocation}>

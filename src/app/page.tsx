@@ -56,9 +56,9 @@ function MainApp() {
   }, [toast]);
 
 
-  const handleMapClick = (e: { lat: number; lng: number }) => {
-    if ( e) {
-      setNewIncidentLocation({ lat: e.lat, lng: e.lng });
+  const handleMapClick = (e: google.maps.MapMouseEvent) => {
+    if (e.latLng) {
+      setNewIncidentLocation({ lat: e.latLng.lat(), lng: e.latLng.lng() });
     }
   };
   
