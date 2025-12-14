@@ -1,17 +1,20 @@
+"use client";
 
-'use client';
-
-import { useMemo, useState, useEffect } from 'react';
-import type { Incident } from '@/lib/types';
-import { useStore } from '@/lib/store';
-import { AppHeader } from '@/components/header';
-import { IncidentSheet } from '@/components/incident-sheet';
-import { IncidentMap } from '@/components/incident-map';
-import { APIProvider, useApiIsLoaded } from '@vis.gl/react-google-maps';
-import { Spinner } from '@/components/ui/spinner';
-import { AlertCircle } from 'lucide-react';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { useToast } from '@/hooks/use-toast';
+import { useMemo, useState, useEffect } from "react";
+import type { Incident } from "@/lib/types";
+import { useStore } from "@/lib/store";
+import { AppHeader } from "@/components/header";
+import { IncidentSheet } from "@/components/incident-sheet";
+import { IncidentMap } from "@/components/incident-map";
+import {
+  APIProvider,
+  useApiIsLoaded,
+  type MapMouseEvent,
+} from "@vis.gl/react-google-maps";
+import { Spinner } from "@/components/ui/spinner";
+import { AlertCircle } from "lucide-react";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { useToast } from "@/hooks/use-toast";
 
 function MainApp() {
   const {
@@ -28,7 +31,10 @@ function MainApp() {
 
   const apiIsLoaded = useApiIsLoaded();
   const { toast } = useToast();
-  const [userLocation, setUserLocation] = useState<{ lat: number; lng: number } | null>(null);
+  const [userLocation, setUserLocation] = useState<{
+    lat: number;
+    lng: number;
+  } | null>(null);
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -41,27 +47,30 @@ function MainApp() {
         },
         () => {
           toast({
-            variant: 'destructive',
-            title: 'Location Access Denied',
-            description: 'Please enable location services to see your position on the map.',
+            variant: "destructive",
+            title: "Location Access Denied",
+            description:
+              "Please enable location services to see your position on the map.",
           });
           // Fallback to default location
           setUserLocation({ lat: 34.0522, lng: -118.2437 });
         }
       );
     } else {
-        // Fallback for old browsers
-        setUserLocation({ lat: 34.0522, lng: -118.2437 });
+      // Fallback for old browsers
+      setUserLocation({ lat: 34.0522, lng: -118.2437 });
     }
   }, [toast]);
 
-
-  const handleMapClick = (e: google.maps.MapMouseEvent) => {
-    if (e.latLng) {
-      setNewIncidentLocation({ lat: e.latLng.lat(), lng: e.latLng.lng() });
+  const handleMapClick = (e: MapMouseEvent) => {
+    if (e.detail.latLng) {
+      setNewIncidentLocation({
+        lat: e.detail.latLng.lat,
+        lng: e.detail.latLng.lng,
+      });
     }
   };
-  
+
   return (
     <div className="flex flex-col h-screen w-screen bg-background">
       <AppHeader onReportClick={openReportSheet} />
@@ -94,11 +103,15 @@ export default function Home() {
           <AlertCircle className="h-4 w-4" />
           <AlertTitle>Google Maps API Key Missing</AlertTitle>
           <AlertDescription>
-            Please add your Google Maps API key to a 
-            <code className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold mx-1">.env.local</code> 
+            Please add your Google Maps API key to a
+            <code className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold mx-1">
+              .env.local
+            </code>
             file to enable map functionality.
             <p className="mt-2">
-              <code className="text-sm">NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=YOUR_API_KEY</code>
+              <code className="text-sm">
+                NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=YOUR_API_KEY
+              </code>
             </p>
           </AlertDescription>
         </Alert>
@@ -107,7 +120,7 @@ export default function Home() {
   }
 
   return (
-    <APIProvider apiKey={apiKey} libraries={['visualization']}>
+    <APIProvider apiKey={apiKey} libraries={["visualization"]}>
       <MainApp />
     </APIProvider>
   );

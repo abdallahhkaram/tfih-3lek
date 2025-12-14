@@ -1,19 +1,23 @@
+"use client";
 
-'use client';
-
-import { Map, AdvancedMarker } from '@vis.gl/react-google-maps';
-import { User } from 'lucide-react';
+import { Map, AdvancedMarker } from "@vis.gl/react-google-maps";
+import { User } from "lucide-react";
+import type { MapMouseEvent } from "@vis.gl/react-google-maps";
 
 interface IncidentMapProps {
   center: { lat: number; lng: number };
   userLocation: { lat: number; lng: number };
-  onMapClick: (e: google.maps.MapMouseEvent) => void;
+  onMapClick: (e: MapMouseEvent) => void;
 }
 
-
-export function IncidentMap({ center, userLocation, onMapClick }: IncidentMapProps) {
+export function IncidentMap({
+  center,
+  userLocation,
+  onMapClick,
+}: IncidentMapProps) {
   return (
     <Map
+      mapId="tfih-3lek-map"
       defaultCenter={center}
       defaultZoom={15}
       disableDefaultUI={false}
