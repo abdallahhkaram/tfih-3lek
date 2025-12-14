@@ -17,30 +17,9 @@ export function IncidentMap({ center, userLocation, onMapClick }: IncidentMapPro
       mapId="safespot-map"
       defaultCenter={center}
       zoom={15}
-      disableDefaultUI={true}
+      disableDefaultUI={false}
       onClick={(e) => e.detail.latLng && onMapClick(e.detail.latLng)}
       className="w-full h-full"
-      styles={[
-        {
-          "featureType": "poi",
-          "elementType": "labels.icon",
-          "stylers": [{ "visibility": "off" }]
-        },
-        {
-          "featureType": "poi",
-          "elementType": "labels.text",
-          "stylers": [{ "visibility": "off" }]
-        },
-        {
-          "featureType": "road",
-          "elementType": "labels.icon",
-          "stylers": [{ "visibility": "off" }]
-        },
-        {
-          "featureType": "transit",
-          "stylers": [{ "visibility": "off" }]
-        }
-      ]}
     >
       <AdvancedMarker position={userLocation}>
         <div className="p-2 bg-primary rounded-full shadow-lg">
