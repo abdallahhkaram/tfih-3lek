@@ -14,9 +14,8 @@ interface IncidentMapProps {
 export function IncidentMap({ center, userLocation, onMapClick }: IncidentMapProps) {
   return (
     <Map
-      mapId="safespot-map"
       defaultCenter={center}
-      zoom={15}
+      defaultZoom={15}
       disableDefaultUI={false}
       onClick={(e) => e.detail.latLng && onMapClick(e.detail.latLng)}
       className="w-full h-full"
