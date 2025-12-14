@@ -15,7 +15,7 @@ export function IncidentMap({ center, userLocation, onMapClick }: IncidentMapPro
   return (
     <Map
       mapId="safespot-map"
-      center={center}
+      defaultCenter={center}
       zoom={15}
       gestureHandling={'greedy'}
       disableDefaultUI={true}
